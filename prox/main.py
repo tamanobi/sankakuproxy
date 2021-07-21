@@ -4,6 +4,14 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
+class SankakuError(Exception):
+    pass
+
+
+class SankakuAccessError(Exception):
+    pass
+
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -11,7 +19,13 @@ def read_root():
 
 @app.get("/sankaku")
 def sankaku():
-    return {"status": requests.get("https://chan.sankakucomplex.com").status_code}
+    try:
+        res = requests.get("https://chan.sankakucomplex.com")
+        res.raise_for_status()
+    except requests.exceptions.HTTPError:  # noqa
+        raise SankakuAccessError
+
+    return {"status": res.status_code}
 
 
 @app.get("/items/{item_id}")
