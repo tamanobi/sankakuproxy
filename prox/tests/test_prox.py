@@ -1,4 +1,4 @@
-from prox import prox
+import prox
 
 
 def test_version():
