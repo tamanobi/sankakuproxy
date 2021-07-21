@@ -1,5 +1,5 @@
-from fastapi import FastAPI
 import requests
+from fastapi import FastAPI
 
 app = FastAPI()
 
@@ -7,6 +7,11 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
+
+@app.get("/sankaku")
+def sankaku():
+    return {"status": requests.get("https://chan.sankakucomplex.com").status_code}
 
 
 @app.get("/items/{item_id}")
