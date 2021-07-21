@@ -37,6 +37,7 @@ authors = ["tamanobi <tamanobi@gmail.com>"]
 python = "^3.9"
 fastapi = "^0.66.1"
 uvicorn = {extras = ["standard"], version = "^0.14.0"}
+requests = "^2.26.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0"
