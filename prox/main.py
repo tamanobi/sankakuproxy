@@ -1,15 +1,8 @@
-import requests
 from fastapi import FastAPI
 
+from gateways import request_sankaku
+
 app = FastAPI()
-
-
-class SankakuError(Exception):
-    pass
-
-
-class SankakuAccessError(Exception):
-    pass
 
 
 @app.get("/")
@@ -19,12 +12,7 @@ def read_root():
 
 @app.get("/sankaku")
 def sankaku():
-    try:
-        res = requests.get("https://chan.sankakucomplex.com")
-        res.raise_for_status()
-    except requests.exceptions.HTTPError:  # noqa
-        raise SankakuAccessError
-
+    res = request_sankaku()
     return {"status": res.status_code}
 
 
