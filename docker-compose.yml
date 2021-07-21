@@ -1,13 +1,23 @@
 version: "3.9"
 services:
+    web:
+        image: nginx:alpine
+        ports:
+            - "9000:80"
+        depends_on:
+            - "app"
+        volumes:
+            - ./web/conf.d:/etc/nginx/conf.d:ro
     app:
         build:
             context: "."
             dockerfile: "Dockerfile"
-        ports:
-            - "8000:8000"
         volumes:
             - "./prox:/opt/app"
-
-networks:
-    prox:
+        command:
+            - "uvicorn"
+            - "main:app"
+            - "--host"
+            - "0.0.0.0"
+            - "--port"
+            - "8000"

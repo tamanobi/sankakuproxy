@@ -21,6 +21,7 @@ RUN mkdir -p /opt/app/src/logs/app_logs
 RUN touch /opt/app/src/logs/server.log
 RUN chown -R uvicornusr /opt/app/src/logs
 
-# USER uvicornusr
+USER uvicornusr
+WORKDIR /opt/app
 
 EXPOSE 8000
