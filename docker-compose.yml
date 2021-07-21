@@ -12,6 +12,7 @@ services:
         build:
             context: "."
             dockerfile: "Dockerfile"
+        user: "${UID}:${GID}"
         volumes:
             - "./prox:/opt/app"
         command:
