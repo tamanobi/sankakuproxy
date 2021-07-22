@@ -5,10 +5,11 @@ import Gazou from '../components/gazou'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
+  const loadingFigure = {type: "loading", href: "", src: ""}
   const [loaded, setLoaded] = useState(false)
   const [requesting, setRequesting] = useState(false)
   const [page, setPage] = useState(0)
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([...Array(10)].map(() => loadingFigure))
 
   async function nextFetch(page) {
     const IMAGE_API = process.env.NEXT_PUBLIC_IMAGE_API
@@ -30,7 +31,11 @@ export default function Home() {
   }
   const next = async () => {
     setRequesting(true)
-    setPosts(Array.prototype.concat(posts, await nextFetch(page + 1)))
+    setPosts(Array.prototype.concat(posts, [...Array(10)].map(() => loadingFigure)))
+    console.log(posts);
+    const newPosts = (await nextFetch(page + 1)).map(v => {return {type: "loaded", ...v}})
+    const all = Array.prototype.concat(posts.filter(v => v.type === "loaded"), newPosts)
+    setPosts(all)
     setPage(page + 1)
     setRequesting(false)
   }
@@ -52,7 +57,7 @@ export default function Home() {
 
       <main className={styles.main}>
         {posts.map((post, idx) => {
-          return <Gazou key={idx} href={post.href} src={post.src} />
+          return <Gazou key={`${idx}${post.href}`} type={post.type} href={post.href} src={post.src} />
         })}
       </main>
       <section>

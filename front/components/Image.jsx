@@ -12,6 +12,6 @@ export default function Image(
     const [loaded, setLoaded] = useState(false)
 
     /* eslint-disable */
-    return <img className={loaded ? "" : styles.skelton} src={src} alt={alt} onLoad={() => {setLoaded(true)}} loading="lazy" />
+    return <img className={loaded ? "" : styles.skeleton} src={src} alt={alt} onLoad={() => {setLoaded(true)}} loading="lazy" />
     /* eslint-enable */
 }
