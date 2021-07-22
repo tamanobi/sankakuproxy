@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false)
+  const [requesting, setRequesting] = useState(false)
   const [page, setPage] = useState(0)
   const [posts, setPosts] = useState([])
 
@@ -28,14 +29,15 @@ export default function Home() {
     })
   }
   const next = async () => {
+    setRequesting(true)
     setPosts(Array.prototype.concat(posts, await nextFetch(page + 1)))
     setPage(page + 1)
+    setRequesting(false)
   }
   useEffect(async () => {
     if (!loaded) {
       setLoaded(true)
       await next()
-      console.log(posts)
     }
   })
 
@@ -53,12 +55,9 @@ export default function Home() {
           return <figure key={idx}><a href={post.href} title={post.href}><Image src={post.src} /></a></figure>
         })}
       </main>
-      <button onClick={async () => await next()}>next page</button>
-      <p>{page}</p>
-
-      <footer className={styles.footer}>
-        Powered by hogeho
-      </footer>
+      <section>
+        <button className={styles.button} onClick={async () => await next()} disabled={requesting}>go to {page + 1}</button>
+      </section>
     </div>
   )
 }

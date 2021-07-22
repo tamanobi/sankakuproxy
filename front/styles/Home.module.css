@@ -91,6 +91,12 @@
   margin-top: 3rem;
 }
 
+.button {
+  display: block;
+  width: 100vw;
+  height: 100px;
+}
+
 .card {
   margin: 1rem;
   padding: 1.5rem;
