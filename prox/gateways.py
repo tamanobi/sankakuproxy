@@ -1,6 +1,8 @@
 from pathlib import Path
 
 import requests
+import os
+from bs4 import BeautifulSoup
 
 
 class SankakuError(Exception):
@@ -17,9 +19,10 @@ def request_sankaku():
         tmp.mkdir()
 
     try:
-        res = requests.get("https://chan.sankakucomplex.com")
+        res = requests.get("https://chan.sankakucomplex.com", cookies=dict(login=os.environ["login"], pass_hash=os.environ["pass_hash"],))
         with open(tmp / "index.html", "w") as f:
-            f.write(res.text)
+            soup = BeautifulSoup(res.text, "html.parser")
+            f.write(soup.prettify())
         res.raise_for_status()
     except requests.exceptions.HTTPError:  # noqa
         raise SankakuAccessError

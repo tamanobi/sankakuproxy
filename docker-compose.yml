@@ -9,6 +9,8 @@ services:
         volumes:
             - ./web/conf.d:/etc/nginx/conf.d:ro
     app:
+        env_file:
+            - "app.env"
         build:
             context: "."
             dockerfile: "Dockerfile"
