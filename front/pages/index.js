@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { getAll } from '../lib/api'
 
-export default function Home() {
+export default function Home({allPosts}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -50,6 +51,12 @@ export default function Home() {
             </p>
           </a>
         </div>
+
+        <section>
+          {allPosts.map((post, idx) => {
+            return <div key={idx}><a href={post.href} title={post.href}><img src={post.src}/></a></div>
+          })}
+        </section>
       </main>
 
       <footer className={styles.footer}>
@@ -66,4 +73,11 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const allPosts = await getAll()
+  return {
+    props: { allPosts },
+  }
 }

@@ -21,8 +21,8 @@ def get_list(page: int) -> list:
 
     return [
         {
-            "href": thumb.find("a").get("href"),
-            "src": thumb.find("img").get("src"),
+            "href": "https://chan.sankakucomplex.com" + thumb.find("a").get("href"),
+            "src": "https:" + thumb.find("img").get("src"),
             "tags": thumb.find("img").get("title").split(" "),
         }
         for thumb in soup.select("span.thumb")
