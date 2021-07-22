@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from gateways import request_sankaku
+from usecases import get_list
 
 app = FastAPI()
 
@@ -12,8 +12,8 @@ def read_root():
 
 @app.get("/sankaku")
 def sankaku():
-    res = request_sankaku()
-    return {"status": res.status_code}
+    res = get_list()
+    return {"body": res}
 
 
 @app.get("/items/{item_id}")
