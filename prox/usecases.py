@@ -1,8 +1,10 @@
 from pathlib import Path
+from urllib import parse
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
-from gateways import request_sankaku
+from gateways import request_sankaku, requst_sankaku_image
 
 
 def _make_cache(text: str) -> None:
@@ -27,3 +29,11 @@ def get_list(page: int) -> list:
         }
         for thumb in soup.select("span.thumb")
     ]
+
+
+def get_image(path: str):
+    parsed = urlparse(path)
+    assert parsed.netloc.startswith("s.sankakucomplex.com")
+    assert "e=" in parsed.query and "m=" in parsed.query
+    res = requst_sankaku_image(parsed.path, parsed.query)
+    return res.content, res.headers["content-type"]

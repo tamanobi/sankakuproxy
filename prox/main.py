@@ -1,6 +1,9 @@
-from fastapi import FastAPI
+import io
 
-from usecases import get_list
+from fastapi import FastAPI
+from starlette.responses import StreamingResponse
+
+from usecases import get_image, get_list
 
 app = FastAPI()
 
@@ -16,6 +19,7 @@ def sankaku(page: int = 1):
     return {"body": res}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "q": q}
+@app.get("/image")
+def image(path: str):
+    res, content_type = get_image(path)
+    return StreamingResponse(io.BytesIO(res), media_type=content_type)
