@@ -20,6 +20,10 @@ def get_list() -> list:
     soup.select("span.thumb")
 
     return [
-        {"href": thumb.find("a").get("href"), "src": thumb.find("img").get("src")}
+        {
+            "href": thumb.find("a").get("href"),
+            "src": thumb.find("img").get("src"),
+            "tags": thumb.find("img").get("title").split(" "),
+        }
         for thumb in soup.select("span.thumb")
     ]
