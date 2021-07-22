@@ -15,21 +15,17 @@ class SankakuAccessError(Exception):
     pass
 
 
-def request_sankaku(page: int):
+def request_sankaku(page: int) -> str:
     try:
         res = requests.get(
-            "https://chan.sankakucomplex.com",
-            # cookies=dict(
-            #     login=os.environ["login"],
-            #     pass_hash=os.environ["pass_hash"],
-            # ),
+            "https://chan.sankakucomplex.com/post/index.content",
             params={"page": page},
         )
         res.raise_for_status()
     except requests.exceptions.HTTPError:  # noqa
         raise SankakuAccessError
 
-    return res
+    return res.text.replace("</head>", "")
 
 
 def requst_sankaku_image(path: str, query: str):

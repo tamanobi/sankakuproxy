@@ -1,3 +1,6 @@
+import { useState } from "react";
+import styles from '../styles/Home.module.css'
+
 export default function Image(
     {
         src,
@@ -6,7 +9,9 @@ export default function Image(
         alt,
     }
 ) {
+    const [loaded, setLoaded] = useState(false)
+
     /* eslint-disable */
-    return <img src={src} alt={alt} loading="lazy" />
+    return <img className={loaded ? "" : styles.skelton} src={src} alt={alt} onLoad={() => {setLoaded(true)}} loading="lazy" />
     /* eslint-enable */
 }

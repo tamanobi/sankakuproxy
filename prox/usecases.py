@@ -6,18 +6,8 @@ from bs4 import BeautifulSoup
 from gateways import request_sankaku, requst_sankaku_image
 
 
-def _make_cache(text: str) -> None:
-    tmp = Path(__file__).parent / Path("tmp")
-    if not tmp.exists():
-        tmp.mkdir()
-    with open(tmp / "index.html", "w") as f:
-        f.write(text)
-
-
 def get_list(page: int) -> list:
-    res = request_sankaku(page)
-    soup = BeautifulSoup(res.text, "html.parser")
-    _make_cache(soup.prettify())
+    soup = BeautifulSoup(request_sankaku(page), "html.parser")
     soup.select("span.thumb")
 
     return [
