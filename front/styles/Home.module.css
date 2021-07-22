@@ -3,18 +3,31 @@
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
 .main {
-  padding: 5rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.main figure {
+  margin: 0;
+  padding: 0;
+}
+.main figure img {
+  width: 50vw;
+  height: 50vw;
+  object-fit: cover;
+  vertical-align: bottom;
+  object-position: center top;
+}
+.main img a {
+  height: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .footer {

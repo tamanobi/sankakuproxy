@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { getAll } from '../lib/api'
+import Image from '../components/Image.jsx'
 
 export default function Home({allPosts}) {
   return (
@@ -13,30 +13,15 @@ export default function Home({allPosts}) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <section>
-          {/* eslint-disable */}
-            {allPosts.map((post, idx) => {
-              return <div key={idx}><a href={post.href} title={post.href}><img src={post.src} alt="illust" /></a></div>
-            })}
-          {/* eslint-enable */}
-        </section>
+        {/* eslint-disable */}
+          {allPosts.map((post, idx) => {
+            return <figure key={idx}><a href={post.href} title={post.href}><Image src={post.src} /></a></figure>
+          })}
+        {/* eslint-enable */}
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+        Powered by hogeho
       </footer>
     </div>
   )
