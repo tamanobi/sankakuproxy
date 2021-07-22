@@ -33,8 +33,6 @@ def request_sankaku(page: int):
 
 
 def requst_sankaku_image(path: str, query: dict):
-    logger.error(path)
-    logger.error(query)
     try:
         res = requests.get(
             "https://s.sankakucomplex.com" + path,

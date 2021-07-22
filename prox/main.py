@@ -8,11 +8,6 @@ from usecases import get_image, get_list
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
 @app.get("/sankaku")
 def sankaku(page: int = 1):
     res = get_list(page)

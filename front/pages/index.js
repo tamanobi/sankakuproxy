@@ -14,9 +14,9 @@ export default function Home() {
     const IMAGE_API = process.env.NEXT_PUBLIC_IMAGE_API
     const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
 
-    const res = await fetch(API_ENDPOINT + "/sankaku", {
+    const query_params = new URLSearchParams({page})
+    const res = await fetch(API_ENDPOINT + "/sankaku" + "?" + query_params, {
       method: 'GET',
-      params: {page},
     })
     const json = await res.json()
     if (json.errors) {
