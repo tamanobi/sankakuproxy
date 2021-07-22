@@ -6,6 +6,7 @@ services:
             - "9000:80"
         depends_on:
             - "app"
+            - "front"
         volumes:
             - ./web/conf.d:/etc/nginx/conf.d:ro
     app:
@@ -26,3 +27,11 @@ services:
             - "--port"
             - "8000"
             - "--reload"
+    front:
+        image: node:14.15.3-alpine
+        volumes:
+            - "./front:/opt/app"
+        working_dir: /opt/app
+        command: [sh, -c, npm install && npm run build && npm run start]
+        ports:
+        - "3000:3000"
