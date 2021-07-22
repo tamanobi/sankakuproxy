@@ -11,8 +11,8 @@ def read_root():
 
 
 @app.get("/sankaku")
-def sankaku():
-    res = get_list()
+def sankaku(page: int = 1):
+    res = get_list(page)
     return {"body": res}
 
 

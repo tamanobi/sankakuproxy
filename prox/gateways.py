@@ -11,7 +11,7 @@ class SankakuAccessError(Exception):
     pass
 
 
-def request_sankaku():
+def request_sankaku(page: int):
     try:
         res = requests.get(
             "https://chan.sankakucomplex.com",
@@ -19,6 +19,7 @@ def request_sankaku():
                 login=os.environ["login"],
                 pass_hash=os.environ["pass_hash"],
             ),
+            params={"page": page},
         )
         res.raise_for_status()
     except requests.exceptions.HTTPError:  # noqa

@@ -13,8 +13,8 @@ def _make_cache(text: str) -> None:
         f.write(text)
 
 
-def get_list() -> list:
-    res = request_sankaku()
+def get_list(page: int) -> list:
+    res = request_sankaku(page)
     soup = BeautifulSoup(res.text, "html.parser")
     _make_cache(soup.prettify())
     soup.select("span.thumb")
