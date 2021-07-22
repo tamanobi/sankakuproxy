@@ -6,5 +6,7 @@ export default function Image(
         alt,
     }
 ) {
+    /* eslint-disable */
     return <img src={src} alt={alt} loading="lazy" />
+    /* eslint-enable */
 }

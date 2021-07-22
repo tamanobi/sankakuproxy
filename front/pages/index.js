@@ -2,8 +2,44 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { getAll } from '../lib/api'
 import Image from '../components/Image.jsx'
+import { useEffect, useState } from 'react'
 
-export default function Home({allPosts}) {
+export default function Home() {
+  const [loaded, setLoaded] = useState(false)
+  const [page, setPage] = useState(0)
+  const [posts, setPosts] = useState([])
+
+  async function nextFetch(page) {
+    const IMAGE_API = process.env.NEXT_PUBLIC_IMAGE_API
+    const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
+
+    const res = await fetch(API_ENDPOINT + "/sankaku", {
+      method: 'GET',
+      params: {page},
+    })
+    const json = await res.json()
+    if (json.errors) {
+      console.error(json.errors)
+      throw new Error('Failed to fetch API')
+    }
+    return json.body.map((post) => {
+        post.src = IMAGE_API + "?path=" + encodeURIComponent(post.src)
+        return post
+    })
+  }
+  const next = async () => {
+    setPosts(Array.prototype.concat(posts, await nextFetch(page + 1)))
+    setPage(page + 1)
+  }
+  useEffect(async () => {
+    if (!loaded) {
+      setLoaded(true)
+      await next()
+      console.log(posts)
+    }
+  })
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,12 +49,12 @@ export default function Home({allPosts}) {
       </Head>
 
       <main className={styles.main}>
-        {/* eslint-disable */}
-          {allPosts.map((post, idx) => {
-            return <figure key={idx}><a href={post.href} title={post.href}><Image src={post.src} /></a></figure>
-          })}
-        {/* eslint-enable */}
+        {posts.map((post, idx) => {
+          return <figure key={idx}><a href={post.href} title={post.href}><Image src={post.src} /></a></figure>
+        })}
       </main>
+      <button onClick={async () => await next()}>next page</button>
+      <p>{page}</p>
 
       <footer className={styles.footer}>
         Powered by hogeho
@@ -30,6 +66,6 @@ export default function Home({allPosts}) {
 export async function getServerSideProps() {
   const allPosts = await getAll()
   return {
-    props: { allPosts },
+    props: {},
   }
 }
