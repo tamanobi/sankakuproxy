@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { getAll } from '../lib/api'
-import Image from '../components/Image.jsx'
+import Gazou from '../components/gazou'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
@@ -52,7 +52,7 @@ export default function Home() {
 
       <main className={styles.main}>
         {posts.map((post, idx) => {
-          return <figure key={idx}><a href={post.href} title={post.href}><Image src={post.src} /></a></figure>
+          return <Gazou key={idx} href={post.href} src={post.src} />
         })}
       </main>
       <section>
