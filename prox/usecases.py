@@ -28,6 +28,7 @@ def get_list(page: int) -> list:
             "tags": thumb.find("img").get("title").split(" "),
         }
         for thumb in soup.select("span.thumb")
+        if "no-visibility.svg" not in thumb.find("img").get("src")
     ]
 
 
