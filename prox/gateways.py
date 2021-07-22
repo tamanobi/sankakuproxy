@@ -32,7 +32,7 @@ def request_sankaku(page: int):
     return res
 
 
-def requst_sankaku_image(path: str, query: dict):
+def requst_sankaku_image(path: str, query: str):
     try:
         res = requests.get(
             "https://s.sankakucomplex.com" + path,
@@ -42,8 +42,8 @@ def requst_sankaku_image(path: str, query: dict):
             ),
             params=query,
             headers={
-                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-                "user-agent": "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",  # noqa
+                "user-agent": "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",  # noqa
             },
         )
         res.raise_for_status()

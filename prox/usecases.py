@@ -1,5 +1,4 @@
 from pathlib import Path
-from urllib import parse
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
