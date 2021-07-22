@@ -11,6 +11,7 @@ services:
     app:
         env_file:
             - "app.env"
+            - ".env"
         build:
             context: "."
             dockerfile: "Dockerfile"
