@@ -5,17 +5,22 @@ import Gazou from '../components/gazou'
 import Modal from '../components/modal'
 import { useEffect, useState } from 'react'
 
+function buildImageSrc(src) {
+    const IMAGE_API = process.env.NEXT_PUBLIC_IMAGE_API
+  return IMAGE_API + "?path=" + encodeURIComponent(src)
+}
+
 export default function Home() {
   const loadingFigure = {type: "loading", href: "", src: ""}
   const [loaded, setLoaded] = useState(false)
   const [requesting, setRequesting] = useState(false)
   const [page, setPage] = useState(0)
+  const [preloadPage, setPreloadPage] = useState(0)
   const [showModal, setShowModal] = useState(false)
   const [pickUpPost, setPickUpPost] = useState({})
   const [posts, setPosts] = useState([...Array(10)].map(() => loadingFigure))
 
   async function nextFetch(page) {
-    const IMAGE_API = process.env.NEXT_PUBLIC_IMAGE_API
     const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
 
     const query_params = new URLSearchParams({page})
@@ -28,17 +33,29 @@ export default function Home() {
       throw new Error('Failed to fetch API')
     }
     return json.body.map((post) => {
-        post.src = IMAGE_API + "?path=" + encodeURIComponent(post.src)
+        post.src = buildImageSrc(post.src)
         return post
     })
   }
   const next = async () => {
     setRequesting(true)
-    setPosts(Array.prototype.concat(posts, [...Array(10)].map(() => loadingFigure)))
-    console.log(posts);
-    const newPosts = (await nextFetch(page + 1)).map(v => {return {type: "loaded", ...v}})
-    const all = Array.prototype.concat(posts.filter(v => v.type === "loaded"), newPosts)
-    setPosts(all)
+    setPosts(posts, ...[...Array(10)].map(() => loadingFigure))
+    const newPosts = (await nextFetch(page + 1)).map(v => {return {type: "loading", ...v}})
+    const concatenated = [...posts, ...newPosts]
+    concatenated.forEach((v,  idx) => {
+      if (v.type === "loaded") return
+      const img = new Image()
+      img.src = v.src
+      img.onload = () => {
+        setPosts(p => {
+          const copy = p.slice()
+          copy.splice(idx, 1, {...v, type: "loaded"})
+          return copy
+        })
+      }
+    });
+    setPosts(concatenated)
+    setPage(page + 1)
     setPage(page + 1)
     setRequesting(false)
   }
@@ -54,7 +71,6 @@ export default function Home() {
     e.preventDefault()
     setShowModal(true)
     setPickUpPost(post)
-    console.log(post)
   }
 
   return (

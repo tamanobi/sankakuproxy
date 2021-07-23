@@ -7,8 +7,7 @@ from gateways import request_sankaku, requst_sankaku_image
 
 
 def get_list(page: int) -> list:
-    soup = BeautifulSoup(request_sankaku(page), "html.parser")
-    soup.select("span.thumb")
+    soup = BeautifulSoup(request_sankaku(page), "lxml")
 
     return [
         {

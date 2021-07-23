@@ -39,6 +39,7 @@ fastapi = "^0.66.1"
 uvicorn = {extras = ["standard"], version = "^0.14.0"}
 requests = "^2.26.0"
 beautifulsoup4 = "^4.9.3"
+lxml = "^4.6.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0"
