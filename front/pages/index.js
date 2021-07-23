@@ -2,6 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { getAll } from '../lib/api'
 import Gazou from '../components/gazou'
+import Modal from '../components/modal'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
@@ -9,6 +10,8 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false)
   const [requesting, setRequesting] = useState(false)
   const [page, setPage] = useState(0)
+  const [showModal, setShowModal] = useState(false)
+  const [pickUpPost, setPickUpPost] = useState({})
   const [posts, setPosts] = useState([...Array(10)].map(() => loadingFigure))
 
   async function nextFetch(page) {
@@ -46,6 +49,13 @@ export default function Home() {
     }
   })
 
+  function openModal(e, post) {
+    e.stopPropagation()
+    e.preventDefault()
+    setShowModal(true)
+    setPickUpPost(post)
+    console.log(post)
+  }
 
   return (
     <div className={styles.container}>
@@ -57,8 +67,32 @@ export default function Home() {
 
       <main className={styles.main}>
         {posts.map((post, idx) => {
-          return <Gazou key={`${idx}${post.href}`} type={post.type} href={post.href} src={post.src} />
+          return (
+            <Gazou
+              key={`${idx}${post.href}`}
+              type={post.type}
+              href={post.href}
+              src={post.src}
+              handleClick={e => {
+                openModal(e, post)
+              }}
+            />
+          )
         })}
+        {showModal && (
+          <Modal
+            handleClose={() => {
+              setShowModal(false)
+              setPickUpPost(undefined)
+            }}
+          >
+            {pickUpPost && (
+              /* eslint-disable */
+                <img src={pickUpPost.src}/>
+              /* eslint-enable */
+            )}
+          </Modal>
+        )}
       </main>
       <section>
         <button className={styles.button} onClick={async () => await next()} disabled={requesting}>go to {page + 1}</button>

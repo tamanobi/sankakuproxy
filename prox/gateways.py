@@ -15,11 +15,32 @@ class SankakuAccessError(Exception):
     pass
 
 
+class RequestSankakuGetList:
+    def __init__(self) -> None:
+        pass
+
+    def get(self, page: int):
+        pass
+
+    def postprocess(self):
+        pass
+
+    def exec(self, page: int) -> str:
+        return self.postprocess(self.get(page))
+
+
 def request_sankaku(page: int) -> str:
     try:
         res = requests.get(
             "https://chan.sankakucomplex.com/post/index.content",
-            params={"page": page},
+            cookies=dict(
+                login=os.environ["login"],
+                pass_hash=os.environ["pass_hash"],
+            ),
+            params={
+                "page": page,
+                "tags": "loli threshold:3",
+            },
         )
         res.raise_for_status()
     except requests.exceptions.HTTPError:  # noqa

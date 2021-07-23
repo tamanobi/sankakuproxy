@@ -5,13 +5,20 @@ export default function Gazou(
         href,
         src,
         type,
+        handleClick,
     }
 ) {
-    if (type !== "loaded") {
-        return <figure><Image src="" /></figure>
-    }
-    if (href) {
-        return <figure><a href={href} title={href}><Image src={src} /></a></figure>
-    }
-    return <figure><Image src={src} /></figure>
+    return (
+        <figure onClick={handleClick}>
+            {type !== "loaded" ? (
+                <Image src="" />
+            ) : (
+                href ? (
+                    <a href={href} title={href}><Image src={src} /></a>
+                ) : (
+                    <Image src={src} />
+                )
+            )}
+        </figure>
+    )
 }
