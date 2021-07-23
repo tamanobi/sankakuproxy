@@ -36,14 +36,34 @@
   height: 100px;
 }
 
+.loaded {}
+.loaded::before {display: none;}
+.loaded::after {display: none;}
+
+.hogehoge {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+
 .skeleton {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::before {
+  content: '';
+  display: block;
   width: 100%;
   height: 100%;
   background: #d9d9d9;
   position: relative;
   overflow: hidden;
 }
-.skeleton::before {
+.skeleton::after {
   content: '';
   display: block;
   height: 100%;
@@ -53,13 +73,14 @@
   top: 0;
   left: 0;
   animation: skeleton-animation 1.2s linear infinite;
+  z-index: 1;
 }
     
 @keyframes skeleton-animation {
   0% {
-    transform: translateX(-100%);
+    background-position: -100px;
   }
-  100% {
-    transform: translateX(100%);
+  40%, 100% {
+    background-position: 140px;
   }
 }

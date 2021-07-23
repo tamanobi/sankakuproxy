@@ -11,7 +11,11 @@ export default function Image(
 ) {
     const [loaded, setLoaded] = useState(false)
 
-    /* eslint-disable */
-    return <img className={loaded ? "" : styles.skeleton} src={src} alt={alt} onLoad={() => {setLoaded(true)}} loading="lazy" />
-    /* eslint-enable */
+    return (
+        <div className={loaded ? styles.loaded : styles.skeleton}>
+            {/* eslint-disable */}
+            <img className={styles.hogehoge} src={src} alt={alt} onLoad={() => {setLoaded(true)}} loading="eager" />
+            {/* eslint-enable */}
+        </div>
+    )
 }
