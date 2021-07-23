@@ -68,7 +68,7 @@ export default function Home() {
 }
 
 export async function getServerSideProps() {
-  const allPosts = await getAll()
+  // const allPosts = await getAll()
   return {
     props: {},
   }
