@@ -19,6 +19,8 @@ services:
         user: "${UID}:${GID}"
         volumes:
             - "./prox:/opt/app"
+        tty: true
+        stdin_open: true
         command:
             - "uvicorn"
             - "main:app"
