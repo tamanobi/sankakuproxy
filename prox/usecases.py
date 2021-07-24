@@ -1,10 +1,11 @@
+from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
-from dataclasses import dataclass
 from gateways import request_sankaku, requst_sankaku_image
+
 
 @dataclass(frozen=True)
 class HrefSrc:
@@ -17,7 +18,10 @@ def get_list(page: int) -> list:
     soup = BeautifulSoup(html, "lxml", from_encoding="utf-8")
 
     return [
-        HrefSrc(href="https://chan.sankakucomplex.com" + thumb.find("a").get("href"), src="https:" + thumb.find("img").get("src"))
+        HrefSrc(
+            href="https://chan.sankakucomplex.com" + thumb.find("a").get("href"),
+            src="https:" + thumb.find("img").get("src"),
+        )
         for thumb in soup.select("span.thumb")
         if "no-visibility.svg" not in thumb.find("img").get("src")
     ]
