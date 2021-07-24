@@ -3,18 +3,21 @@ from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
+from dataclasses import dataclass
 from gateways import request_sankaku, requst_sankaku_image
+
+@dataclass(frozen=True)
+class HrefSrc:
+    href: str
+    src: str
 
 
 def get_list(page: int) -> list:
-    soup = BeautifulSoup(request_sankaku(page), "lxml", from_encoding="utf-8")
+    html = request_sankaku(page)
+    soup = BeautifulSoup(html, "lxml", from_encoding="utf-8")
 
     return [
-        {
-            "href": "https://chan.sankakucomplex.com" + thumb.find("a").get("href"),
-            "src": "https:" + thumb.find("img").get("src"),
-            "tags": thumb.find("img").get("title").split(" "),
-        }
+        HrefSrc(href="https://chan.sankakucomplex.com" + thumb.find("a").get("href"), src="https:" + thumb.find("img").get("src"))
         for thumb in soup.select("span.thumb")
         if "no-visibility.svg" not in thumb.find("img").get("src")
     ]
