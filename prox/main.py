@@ -23,7 +23,7 @@ def top():
     return {"body": res.text}
 
 
-@app.get("/")
+@app.get("/echo")
 def echo():
     import requests
 
