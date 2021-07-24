@@ -11,12 +11,12 @@ export default function Gazou(
     return (
         <figure onClick={handleClick}>
             {type !== "loaded" ? (
-                <Image src="" />
+                <Image src={src} loaded={false}/>
             ) : (
                 href ? (
-                    <a href={href} title={href}><Image src={src} /></a>
+                    <a href={href} title={href}><Image src={src} loaded={true}/></a>
                 ) : (
-                    <Image src={src} />
+                    <Image src={src}  loaded={true}/>
                 )
             )}
         </figure>

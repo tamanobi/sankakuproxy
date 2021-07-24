@@ -7,14 +7,15 @@ export default function Image(
         height,
         width,
         alt,
+        loaded,
     }
 ) {
-    const [loaded, setLoaded] = useState(false)
+    const [canShow, setCanShow] = useState(false)
 
     return (
-        <div className={loaded ? styles.loaded : styles.skeleton}>
+        <div className={(loaded  && canShow) ? styles.loaded : styles.skeleton}>
             {/* eslint-disable */}
-            <img className={styles.hogehoge} src={src} alt={alt} onLoad={() => {setLoaded(true)}} loading="eager" />
+            <img src={src} alt={alt} onLoad={() => {setCanShow(true)}}loading="eager" />
             {/* eslint-enable */}
         </div>
     )

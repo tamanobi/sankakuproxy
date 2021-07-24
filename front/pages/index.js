@@ -18,7 +18,7 @@ export default function Home() {
   const [preloadPage, setPreloadPage] = useState(0)
   const [showModal, setShowModal] = useState(false)
   const [pickUpPost, setPickUpPost] = useState({})
-  const [posts, setPosts] = useState([...Array(10)].map(() => loadingFigure))
+  const [posts, setPosts] = useState([])
 
   async function nextFetch(page) {
     const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
@@ -39,17 +39,18 @@ export default function Home() {
   }
   const next = async () => {
     setRequesting(true)
-    setPosts(posts, ...[...Array(10)].map(() => loadingFigure))
-    const newPosts = (await nextFetch(page + 1)).map(v => {return {type: "loading", ...v}})
+    setPosts([...posts, ...[...Array(10)].map(() => loadingFigure)])
+    const newPosts = (await nextFetch(page + 1)).map(v => {return {type: "loading", ...v}}) // バグアリ
     const concatenated = [...posts, ...newPosts]
     concatenated.forEach((v,  idx) => {
       if (v.type === "loaded") return
       const img = new Image()
       img.src = v.src
       img.onload = () => {
-        setPosts(p => {
-          const copy = p.slice()
+        setPosts(posts => {
+          const copy = posts.slice()
           copy.splice(idx, 1, {...v, type: "loaded"})
+          console.log(copy)
           return copy
         })
       }
