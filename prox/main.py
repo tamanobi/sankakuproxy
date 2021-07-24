@@ -19,7 +19,15 @@ app.add_middleware(SentryAsgiMiddleware)
 def top():
     import requests
 
-    res = requests.get("https://chan.sankakucomplex.com/post/index.conte")
+    res = requests.get("https://chan.sankakucomplex.com/post/index.content")
+    return {"body": res.text}
+
+
+@app.get("/")
+def echo():
+    import requests
+
+    res = requests.get("https://ipecho.net/plain")
     return {"body": res.text}
 
 
