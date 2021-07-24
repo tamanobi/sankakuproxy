@@ -3,7 +3,7 @@ import io
 from fastapi import FastAPI
 from starlette.responses import StreamingResponse
 
-from config import logger
+from myconfig import logger
 from usecases import get_image, get_list
 
 app = FastAPI()
@@ -11,6 +11,7 @@ app = FastAPI()
 
 @app.get("/sankaku")
 def sankaku(page: int = 1):
+    logger.info("test message")
     res = get_list(page)
     return {"body": res}
 
