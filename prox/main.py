@@ -1,17 +1,22 @@
 import io
+import os
 
+import sentry_sdk
 from fastapi import FastAPI
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from starlette.responses import StreamingResponse
 
-from myconfig import logger
 from usecases import get_image, get_list
 
 app = FastAPI()
+sentry_dns = os.environ.get("SENTRY_DSN")
+if sentry_dns:
+    sentry_sdk.init(sentry_dns, environment=os.environ.get("APP_ENV", "local"))
+app.add_middleware(SentryAsgiMiddleware)
 
 
 @app.get("/sankaku")
 def sankaku(page: int = 1):
-    logger.info("test message")
     res = get_list(page)
     return {"body": res}
 
