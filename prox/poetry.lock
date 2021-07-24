@@ -202,6 +202,14 @@ requirements_deprecated_finder = ["pipreqs", "pip-api"]
 
 [[package]]
 category = "main"
+description = "JSON log formatter"
+name = "json-log-formatter"
+optional = false
+python-versions = "*"
+version = "0.4.0"
+
+[[package]]
+category = "main"
 description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
 name = "lxml"
 optional = false
@@ -523,7 +531,7 @@ python-versions = ">=3.6.1"
 version = "9.1"
 
 [metadata]
-content-hash = "6310996f3e5b1618568684495c8e98436be942beb4545c3fc61dba6f8655b687"
+content-hash = "18e28e42c63f485dab43ec66f432e93053102d9a78f9d6ad9090d4ddba7013b6"
 lock-version = "1.0"
 python-versions = "^3.9"
 
@@ -609,6 +617,9 @@ iniconfig = [
 isort = [
     {file = "isort-5.9.2-py3-none-any.whl", hash = "sha256:eed17b53c3e7912425579853d078a0832820f023191561fcee9d7cae424e0813"},
     {file = "isort-5.9.2.tar.gz", hash = "sha256:f65ce5bd4cbc6abdfbe29afc2f0245538ab358c14590912df638033f157d555e"},
+]
+json-log-formatter = [
+    {file = "JSON-log-formatter-0.4.0.tar.gz", hash = "sha256:3644f30233f22746fd181d1340cc8096520a4f464d18877270b8664554e61f81"},
 ]
 lxml = [
     {file = "lxml-4.6.3-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:df7c53783a46febb0e70f6b05df2ba104610f2fb0d27023409734a3ecbb78fb2"},

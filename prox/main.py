@@ -3,6 +3,7 @@ import io
 from fastapi import FastAPI
 from starlette.responses import StreamingResponse
 
+from config import logger
 from usecases import get_image, get_list
 
 app = FastAPI()

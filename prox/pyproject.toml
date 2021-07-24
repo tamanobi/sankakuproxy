@@ -40,6 +40,7 @@ uvicorn = {extras = ["standard"], version = "^0.14.0"}
 requests = "^2.26.0"
 beautifulsoup4 = "^4.9.3"
 lxml = "^4.6.3"
+JSON-log-formatter = "^0.4.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0"
