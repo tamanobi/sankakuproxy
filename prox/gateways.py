@@ -41,7 +41,7 @@ def request_sankaku(page: int) -> str:
                 "tags": "loli threshold:3",
             },
             headers={
-                "user-agent": "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",  # noqa
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",  # noqa
             },
         )
         res.raise_for_status()
