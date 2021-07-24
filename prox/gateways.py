@@ -4,7 +4,6 @@ import os
 import requests
 
 logger = logging.getLogger(__file__)
-logger.setLevel(10)
 
 
 class SankakuError(Exception):
@@ -43,8 +42,9 @@ def request_sankaku(page: int) -> str:
             },
         )
         res.raise_for_status()
-    except requests.exceptions.HTTPError:  # noqa
-        raise SankakuAccessError
+    except requests.exceptions.HTTPError as e:  # noqa
+        logger.error(e)
+        raise SankakuAccessError(e)
 
     return res.text.replace("</head>", "")
 
