@@ -15,6 +15,14 @@ if sentry_dns:
 app.add_middleware(SentryAsgiMiddleware)
 
 
+@app.get("/")
+def top():
+    import requests
+
+    res = requests.get("https://chan.sankakucomplex.com/post/index.conte")
+    return {"body": res.text}
+
+
 @app.get("/sankaku")
 def sankaku(page: int = 1):
     res = get_list(page)
