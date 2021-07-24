@@ -51,7 +51,7 @@
   display: block;
   position: relative;
   z-index: 100;
-  transition: all ease 1.5s;
+  transition: opacity ease 1.5s;
 }
 .skeleton > img {
   opacity: 0;
