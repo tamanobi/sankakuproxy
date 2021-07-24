@@ -7,7 +7,7 @@ from gateways import request_sankaku, requst_sankaku_image
 
 
 def get_list(page: int) -> list:
-    soup = BeautifulSoup(request_sankaku(page), "lxml")
+    soup = BeautifulSoup(request_sankaku(page), "lxml", from_encoding="utf-8")
 
     return [
         {
