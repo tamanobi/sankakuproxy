@@ -1,21 +1,5 @@
 import logging
-from logging import config
-
-LOGGER = {
-    "version": 1,
-    "formatters": {"default": {"()": "myconfig.CustomisedJSONFormatter"}},
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "level": "INFO",
-            "formatter": "default",
-            "stream": "ext://sys.stdout",
-        },
-    },
-    "loggers": {"sankakuproxy": {"level": "DEBUG", "handlers": ["console"]}},
-}
-
-from logging import LogRecord
+from logging import LogRecord, config
 
 import json_log_formatter
 
@@ -38,5 +22,19 @@ class CustomisedJSONFormatter(json_log_formatter.JSONFormatter):
         return extra
 
 
-config.dictConfig(LOGGER)
+config.dictConfig(
+    {
+        "version": 1,
+        "formatters": {"default": {"()": "myconfig.CustomisedJSONFormatter"}},
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "level": "INFO",
+                "formatter": "default",
+                "stream": "ext://sys.stdout",
+            },
+        },
+        "loggers": {"sankakuproxy": {"level": "DEBUG", "handlers": ["console"]}},
+    }
+)
 logger = logging.getLogger("sankakuproxy")
