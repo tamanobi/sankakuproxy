@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Optional
 
 import requests
 
@@ -28,6 +29,23 @@ class RequestSankakuGetList:
         return self.postprocess(self.get(page))
 
 
+logger.setLevel(logging.DEBUG)
+
+
+def get_proxy() -> Optional[dict]:
+    PROXY_USER = os.environ.get("PROXY_USER")
+    PROXY_PASSWORD = os.environ.get("PROXY_PASSWORD")
+    PROXY_IP_ADDRESS = os.environ.get("PROXY_IP_ADDRESS")
+    PROXY_PORT = os.environ.get("PROXY_PORT")
+
+    if PROXY_USER and PROXY_PASSWORD and PROXY_IP_ADDRESS and PROXY_PORT:
+        return {
+            "https": f"http://{PROXY_USER}:{PROXY_PASSWORD}@{PROXY_IP_ADDRESS}:{PROXY_PORT}"  # noqa
+        }
+
+    return None
+
+
 def request_sankaku(page: int) -> str:
     try:
         res = requests.get(
@@ -36,6 +54,7 @@ def request_sankaku(page: int) -> str:
                 login=os.environ["login"],
                 pass_hash=os.environ["pass_hash"],
             ),
+            proxies=get_proxy(),
             params={
                 "page": page,
                 "tags": "loli threshold:3",
@@ -60,6 +79,7 @@ def requst_sankaku_image(path: str, query: str):
                 login=os.environ["login"],
                 pass_hash=os.environ["pass_hash"],
             ),
+            proxies=get_proxy(),
             params=query,
             headers={
                 "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",  # noqa
