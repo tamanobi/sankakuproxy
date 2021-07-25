@@ -3,6 +3,7 @@ import os
 
 import sentry_sdk
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from starlette.responses import StreamingResponse
 
@@ -13,6 +14,14 @@ sentry_dns = os.environ.get("SENTRY_DSN")
 if sentry_dns:
     sentry_sdk.init(sentry_dns, environment=os.environ.get("APP_ENV", "local"))
 app.add_middleware(SentryAsgiMiddleware)
+origins = [] + (os.environ.get("ALLOW_ORIGIN") or [])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=[],
+)
 
 
 @app.get("/")
