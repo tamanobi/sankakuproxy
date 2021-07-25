@@ -14,7 +14,7 @@ sentry_dns = os.environ.get("SENTRY_DSN")
 if sentry_dns:
     sentry_sdk.init(sentry_dns, environment=os.environ.get("APP_ENV", "local"))
 app.add_middleware(SentryAsgiMiddleware)
-origins = [] + (os.environ.get("ALLOW_ORIGIN") or [])
+origins = [] + ([os.environ.get("ALLOW_ORIGIN")] or [])
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
