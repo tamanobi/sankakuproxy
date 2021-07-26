@@ -10,37 +10,45 @@ function buildImageSrc(src) {
   return IMAGE_API + "?path=" + encodeURIComponent(src)
 }
 
+async function fetchList(page) {
+    const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
+    const query_params = new URLSearchParams({page})
+    const res = await fetch(API_ENDPOINT + "/sankaku?" + query_params, {
+      method: 'GET',
+    })
+    const json = await res.json()
+    if (json.errors) {
+      throw new Error('Failed to fetch API')
+    }
+    return json
+}
+
 export default function Home() {
   const loadingFigure = {type: "loading", href: "", src: ""}
   const [loaded, setLoaded] = useState(false)
   const [requesting, setRequesting] = useState(false)
   const [page, setPage] = useState(0)
-  const [preloadPage, setPreloadPage] = useState(0)
   const [showModal, setShowModal] = useState(false)
   const [pickUpPost, setPickUpPost] = useState({})
   const [posts, setPosts] = useState([])
 
-  async function nextFetch(page) {
-    const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
-
-    const query_params = new URLSearchParams({page})
-    const res = await fetch(API_ENDPOINT + "/sankaku" + "?" + query_params, {
-      method: 'GET',
-    })
-    const json = await res.json()
-    if (json.errors) {
-      console.error(json.errors)
-      throw new Error('Failed to fetch API')
-    }
+  async function fetchCore(page, type) {
+    const json = await fetchList(page)
     return json.body.map((post) => {
         post.src = buildImageSrc(post.src)
+        post.type = type
         return post
     })
   }
+  async function nextFetch(page) {
+    return fetchCore(page, "loading")
+  }
+  
   const next = async () => {
     setRequesting(true)
     setPosts([...posts, ...[...Array(10)].map(() => loadingFigure)])
-    const newPosts = (await nextFetch(page + 1)).map(v => {return {type: "loading", ...v}}) // バグアリ
+    const newPosts = await nextFetch(page + 1)
+
     const concatenated = [...posts, ...newPosts]
     concatenated.forEach((v,  idx) => {
       if (v.type === "loaded") return
@@ -56,7 +64,6 @@ export default function Home() {
       }
     });
     setPosts(concatenated)
-    setPage(page + 1)
     setPage(page + 1)
     setRequesting(false)
   }
